@@ -4,7 +4,7 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2021-08-28T13:09:53-05:00",
+    "exported_at": "2021-08-28T13:54:05-05:00",
     "name": "Blockland",
     "author": "xanderian101@hotmail.com",
     "description": "Blockland dedicated server hosted through wine",
@@ -14,12 +14,12 @@
         "quay.io\/parkervcp\/pterodactyl-images:debian_wine-4"
     ],
     "file_denylist": [],
-    "startup": "WINEDEBUG=-all xvfb-run -a wine Blockland.exe ptlaaxobimwroe -dedicated -port {{SERVER_PORT}} -gamemode {{GAMEMODE}} -dToken {{DTOKEN}} -serverName \"{{SERVER_NAME}}\"",
+    "startup": "bash .\/serverstart.sh",
     "config": {
-        "files": "{}",
+        "files": "{\r\n    \"config\/server\/prefs.cs\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"$Pref::Server::AdminPassword = \\\"\\\";\": \"$Pref::Server::AdminPassword = \\\"{{env.ADMIN_PASSWORD}}\\\";\",\r\n            \"$Pref::Server::Password = \\\"\\\";\": \"$Pref::Server::Password = \\\"{{env.SERVER_PASSWORD}}\\\";\",\r\n            \"$Pref::Server::Name =\": \"$Pref::Server::Name = \\\"{{env.SERVER_NAME}}\\\";\",\r\n            \"$$Pref::Server::WelcomeMessage =\": \"$Pref::Server::WelcomeMessage = \\\"{{env.SERVER_WELCOME}}\\\";\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \"Dedicated server is now running.\"\r\n}",
         "logs": "{}",
-        "stop": "quit();"
+        "stop": "^C"
     },
     "scripts": {
         "installation": {
@@ -82,6 +82,15 @@
             "user_viewable": false,
             "user_editable": false,
             "rules": "nullable|string"
+        },
+        {
+            "name": "Welcome Message",
+            "description": "",
+            "env_variable": "SERVER_WELCOME",
+            "default_value": "\\c2Welcome to Blockland, %1.",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:20"
         }
     ]
 }
