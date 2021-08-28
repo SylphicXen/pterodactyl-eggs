@@ -1,0 +1,87 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-08-28T13:01:06-05:00",
+    "name": "Blockland",
+    "author": "xanderian101@hotmail.com",
+    "description": "Blockland dedicated server hosted through wine",
+    "features": null,
+    "images": [
+        "quay.io\/parkervcp\/pterodactyl-images:debian_wine-5",
+        "quay.io\/parkervcp\/pterodactyl-images:debian_wine-4"
+    ],
+    "file_denylist": [],
+    "startup": "WINEDEBUG=-all xvfb-run -a wine Blockland.exe ptlaaxobimwroe -dedicated -port {{SERVER_PORT}} -gamemode {{GAMEMODE}} -dToken {{DTOKEN}} -serverName \"{{SERVER_NAME}}\"",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Dedicated server is now running.\"\r\n}",
+        "logs": "{}",
+        "stop": "quit();"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# The wine generic server installer\r\n# This will just pull a download link and unpack it in directory if specified.\r\n\r\napt update -y\r\napt install -y curl file unzip wine\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir -p \/mnt\/server\/\r\nfi\r\n\r\ncd \/mnt\/server\/\r\n\r\ncurl -sSL https:\/\/blockland.us\/files\/BlocklandPortable.zip -o BlocklandPortable.zip\r\n\r\n# unpack servver files\r\nFILETYPE=$(file -F ',' BlocklandPortable.zip} | cut -d',' -f2 | cut -d' ' -f2)\r\nunzip BlocklandPortable.zip\r\nrm BlocklandPortable.zip",
+            "container": "debian:buster-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Dedicated Server Token",
+            "description": "The authentication token for you to host dedicated servers.",
+            "env_variable": "DTOKEN",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string"
+        },
+        {
+            "name": "Gamemode",
+            "description": "The gamemode to launch",
+            "env_variable": "GAMEMODE",
+            "default_value": "custom",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string"
+        },
+        {
+            "name": "Server Name",
+            "description": "The name of the server",
+            "env_variable": "SERVER_NAME",
+            "default_value": "Blockland Server",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string"
+        },
+        {
+            "name": "Max Player Count",
+            "description": "Maximum amount of players allowed on the server",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "8",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Server Password",
+            "description": "The password to connect to the server",
+            "env_variable": "SERVER_PASSWORD",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "nullable|string"
+        },
+        {
+            "name": "Admin Password",
+            "description": "The password to login as an admin",
+            "env_variable": "ADMIN_PASSWORD",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "nullable|string"
+        }
+    ]
+}
