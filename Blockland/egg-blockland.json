@@ -4,7 +4,7 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2021-08-28T13:01:06-05:00",
+    "exported_at": "2021-08-28T13:09:53-05:00",
     "name": "Blockland",
     "author": "xanderian101@hotmail.com",
     "description": "Blockland dedicated server hosted through wine",
@@ -23,7 +23,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n# The wine generic server installer\r\n# This will just pull a download link and unpack it in directory if specified.\r\n\r\napt update -y\r\napt install -y curl file unzip wine\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir -p \/mnt\/server\/\r\nfi\r\n\r\ncd \/mnt\/server\/\r\n\r\ncurl -sSL https:\/\/blockland.us\/files\/BlocklandPortable.zip -o BlocklandPortable.zip\r\n\r\n# unpack servver files\r\nFILETYPE=$(file -F ',' BlocklandPortable.zip} | cut -d',' -f2 | cut -d' ' -f2)\r\nunzip BlocklandPortable.zip\r\nrm BlocklandPortable.zip",
+            "script": "#!\/bin\/bash\r\n# The wine generic server installer\r\n# This will just pull a download link and unpack it in directory if specified.\r\n\r\napt update -y\r\napt install -y curl file unzip\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir -p \/mnt\/server\/\r\nfi\r\n\r\ncd \/mnt\/server\/\r\n\r\ncurl -sSL https:\/\/blockland.us\/files\/BlocklandPortable.zip -o BlocklandPortable.zip\r\n\r\n# unpack servver files\r\nFILETYPE=$(file -F ',' BlocklandPortable.zip} | cut -d',' -f2 | cut -d' ' -f2)\r\nunzip BlocklandPortable.zip\r\nrm BlocklandPortable.zip\r\n\r\ncurl -sSL https:\/\/raw.githubusercontent.com\/gr1m0ire\/pterodactyl-eggs\/main\/Blockland\/serverstart.sh -o serverstart.sh",
             "container": "debian:buster-slim",
             "entrypoint": "bash"
         }
